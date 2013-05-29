@@ -1,0 +1,186 @@
+.web20button
+{
+	display: inline-block;
+	text-align: center;
+	text-decoration: none;
+	outline: none;
+	-moz-user-select: none;
+}
+
+.web20button span
+{
+	display: block;
+	background-repeat: no-repeat;
+	padding: 0;
+}
+
+.web20button .buttonText
+{
+	background-repeat: repeat-x;
+}
+
+.Style4 .web20button
+{
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+}
+
+.blue .web20button span
+{
+	background-image: url('../images/sprite4.png');
+	line-height: 20px;
+}
+
+.blue .web20button .outerSpan
+{
+	padding-left: 10px;
+}
+
+.blue .web20button .innerSpan
+{
+	background-position: right -40px;
+	padding-right: 10px;
+}
+
+.blue .web20button .buttonText
+{
+	background-position: 0 -20px;
+	padding: 0 2px;
+}
+
+.blue a
+{
+	background: #7BD3F4;
+	color: #ffffff;
+}
+.blue a:hover
+{
+	background: #96E8F1;
+	color: #ffffff;
+}
+
+
+
+
+
+.bigblue .web20button
+{
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+
+}
+
+.bigblue .web20button span
+{
+	background-image: url('../images/sprite2.png');
+	line-height: 30px;
+}
+
+.bigblue .web20button .outerSpan
+{
+	padding-left: 10px;
+}
+
+.bigblue .web20button .innerSpan
+{
+	background-position: right -60px;
+	padding-right: 10px;
+}
+
+.bigblue .web20button .buttonText
+{
+	background-position: 0 -30px;
+	padding: 0 6px;
+}
+
+.bigblue a
+{
+	background: #7BD3F4;
+	color: #ffffff;
+}
+.bigblue a:hover
+{
+	background: #96E8F1;
+	color: #ffffff;
+}
+
+
+
+
+.pink .web20button span
+{
+	background-image: url('../images/sprite4.png');
+	line-height: 20px;
+}
+
+.pink .web20button .outerSpan
+{
+	padding-left: 10px;
+}
+
+.pink .web20button .innerSpan
+{
+	background-position: right -40px;
+	padding-right: 10px;
+}
+
+.pink .web20button .buttonText
+{
+	background-position: 0 -20px;
+	padding: 0 2px;
+}
+
+.pink a
+{
+	background: #FAD5BE;
+	color: #ffffff;
+}
+.pink a:hover
+{
+	background: #FBE1D2;
+	color: #ffffff;
+}
+
+
+
+.bigpink .web20button
+{
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+
+}
+
+.bigpink .web20button span
+{
+	background-image: url('../images/sprite2.png');
+	line-height: 30px;
+}
+
+.bigpink .web20button .outerSpan
+{
+	padding-left: 10px;
+}
+
+.bigpink .web20button .innerSpan
+{
+	background-position: right -60px;
+	padding-right: 10px;
+}
+
+.bigpink .web20button .buttonText
+{
+	background-position: 0 -30px;
+	padding: 0 6px;
+}
+
+.bigpink a
+{
+	background: #FAD5BE;
+	color: #ffffff;
+}
+.bigpink a:hover
+{
+	background: #FBE1D2;
+	color: #ffffff;
+}
+

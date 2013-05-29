@@ -1,0 +1,343 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+  <!-- the application context definition for the springapp DispatcherServlet -->
+
+
+	
+
+	<!-- ############################  대상자관리 관련  ######################################### -->
+	<!--  대상자등록 Module Controller -->
+	<bean name="/target/targetlist/target.do" class="web.target.targetlist.control.TargetListController">
+		<property name="targetListService" ref="targetListService"/>
+		<property name="methodNameResolver" ref ="methodNameResolver"/>
+		<property name="realUploadPath">
+			<value>/home/pshyun/mine/ThunderMail/apache-tomcat-7.0.40/webapps/tm/upload/target/</value>
+		</property>
+	</bean>
+
+
+	<!-- 회원검색UI -->
+	<bean name="/target/targetui/targetui.do" class="web.target.targetui.control.TargetUIController">
+		<property name="targetUIService" ref="targetUIService"/>
+		<property name="methodNameResolver" ref ="methodNameResolver"/>
+	</bean>
+
+
+	<!-- ############################대량메일작성 관련 ####################################### --> 
+	<!-- 대량메일  Module Controller -->
+	<bean name="/massmail/write/massmail.do" class="web.massmail.write.control.MassMailController">
+		<property name="massMailService" ref="massMailService"/>
+		<property name="methodNameResolver" ref ="methodNameResolver"/>
+		<property name="realUploadPath">
+			<value>/home/pshyun/mine/ThunderMail/apache-tomcat-7.0.40/webapps/tm/upload/massmail/</value>
+		</property>
+	</bean>	
+
+
+	<!-- ############################대량메일통계 관련 ####################################### --> 
+	<!-- 대량메일통계  Module Controller -->
+	<bean name="/massmail/statistic/massmail.do" class="web.massmail.statistic.control.MassMailStatController">
+		<property name="massMailStatService" ref="massMailStatService"/>
+		<property name="methodNameResolver" ref ="methodNameResolver"/>
+	</bean>	
+
+	<!-- ############################대량메일 발송스케줄 관련 ####################################### --> 
+	<!-- 대량메일 발송스케줄  Module Controller -->
+	<bean name="/massmail/schedule/schedule.do" class="web.massmail.schedule.control.ScheduleController">
+		<property name="scheduleService" ref="scheduleService"/>
+		<property name="methodNameResolver" ref ="methodNameResolver"/>
+	</bean>	
+
+   <!-- ############################컨텐츠  메뉴 관련 ####################################### -->
+	<!-- 메일템플릿  Module Controller -->
+	<bean name="/content/mailtemplate/mailtemplate.do" class="web.content.mailtemplate.control.MailTemplateController">
+		<property name="mailTemplateService" ref="mailTemplateService"/>
+		<property name="methodNameResolver" ref ="methodNameResolver"/>
+	</bean>	
+
+	<!-- 테스터  Module Controller -->
+	<bean name="/content/tester/tester.do" class="web.content.tester.control.TesterController">
+		<property name="testerService" ref="testerService"/>
+		<property name="methodNameResolver" ref ="methodNameResolver"/>
+	</bean>		
+
+
+	<!-- 설문관리  Module Controller -->
+	<bean name="/content/poll/poll.do" class="web.content.poll.control.PollController">
+		<property name="pollService" ref="pollService"/>
+		<property name="methodNameResolver" ref ="methodNameResolver"/>
+		<property name="realUploadPath">
+			<value>/home/pshyun/mine/ThunderMail/apache-tomcat-7.0.40/webapps/tm/upload/poll/</value>
+		</property>
+	</bean>		
+	
+	<!-- ############################  관리자 메뉴 관련  ######################################### -->
+
+	<!--  로그인 Module Controller -->
+	<bean name="/admin/login/login.do" class="web.admin.login.control.LoginController">
+		<property name="loginService" ref="loginService"/>
+		<property name="methodNameResolver" ref ="methodNameResolver"/>
+	</bean>
+	
+	<!--  공지사항 Module Controller -->
+	<bean name="/admin/board/board.do" class="web.admin.board.control.BoardController">
+		<property name="boardService" ref="boardService"/>
+		<property name="methodNameResolver" ref ="methodNameResolver"/>
+		<property name="realUploadPath">
+			<value>/home/pshyun/mine/ThunderMail/apache-tomcat-7.0.40/webapps/tm/upload/board/</value>
+		</property>
+	</bean>
+
+	<!-- 사용자그룹 Module Controller -->
+	<bean name="/admin/usergroup/usergroup.do" class="web.admin.usergroup.control.UserGroupController">
+		<property name="userGroupService" ref="userGroupService"/>
+		<property name="methodNameResolver" ref ="methodNameResolver"/>
+	</bean>
+
+	<!-- 메뉴 Module Controller -->
+	<bean name="/admin/menu/menu.do" class="web.admin.menu.control.MenuController">
+		<property name="menuService" ref="menuService"/>
+		<property name="methodNameResolver" ref ="methodNameResolver"/>
+	</bean>
+
+
+	<!-- DB/JDBC 설정 Module Controller -->
+	<bean name="/admin/dbjdbcset/dbjdbcset.do" class="web.admin.dbjdbcset.control.DbJdbcSetController">
+		<property name="dbJdbcSetService" ref="dbJdbcSetService"/>
+		<property name="methodNameResolver" ref ="methodNameResolver"/>
+	</bean>
+	
+	<!-- 도메인 설정 Module Controller -->
+	<bean name="/admin/domainset/domainset.do" class="web.admin.domainset.control.DomainSetController">
+		<property name="domainSetService" ref="domainSetService"/>
+		<property name="methodNameResolver" ref ="methodNameResolver"/>
+	</bean>
+	
+	<!-- 환경 설정 Module Controller -->
+	<bean name="/admin/systemset/systemset.do" class="web.admin.systemset.control.SystemSetController">
+		<property name="systemSetService" ref="systemSetService"/>
+		<property name="methodNameResolver" ref ="methodNameResolver"/>
+	</bean>
+
+
+	<!-- 보내는사람  Module Controller -->
+	<bean name="/admin/sender/sender.do" class="web.admin.sender.control.SenderController">
+		<property name="senderService" ref="senderService"/>
+		<property name="methodNameResolver" ref ="methodNameResolver"/>
+		
+	</bean>	
+
+	<!-- 원투원정보  Module Controller -->
+	<bean name="/admin/onetoone/onetoone.do" class="web.admin.onetoone.control.OneToOneController">
+		<property name="oneToOneService" ref="oneToOneService"/>
+		<property name="methodNameResolver" ref ="methodNameResolver"/>
+	</bean>
+
+	<!-- 대량메일그룹  Module Controller -->
+	<bean name="/admin/massmailgroup/massmailgroup.do" class="web.admin.massmailgroup.control.MassMailGroupController">
+		<property name="massMailGroupService" ref="massMailGroupService"/>
+		<property name="methodNameResolver" ref ="methodNameResolver"/>
+	</bean>
+
+	<!-- 대상자그룹  Module Controller -->
+	<bean name="/admin/targetgroup/targetgroup.do" class="web.admin.targetgroup.control.TargetGroupController">
+		<property name="targetGroupService" ref="targetGroupService"/>
+		<property name="methodNameResolver" ref ="methodNameResolver"/>
+	</bean>
+	
+	<!-- 수신거부메일  Module Controller -->
+	<bean name="/admin/rejectmail/rejectmail.do" class="web.admin.rejectmail.control.RejectMailController">
+		<property name="rejectMailService" ref="rejectMailService"/>
+		<property name="methodNameResolver" ref ="methodNameResolver"/>
+		<property name="realUploadPath">
+			<value>/home/pshyun/mine/ThunderMail/apache-tomcat-7.0.40/webapps/tm/upload/reject/</value>
+		</property>
+	</bean>
+
+	<!-- 영구적인 실패자  Module Controller -->
+	<bean name="/admin/persistfail/persistfail.do" class="web.admin.persistfail.control.PersistFailController">
+		<property name="persistFailService" ref="persistFailService"/>
+		<property name="methodNameResolver" ref ="methodNameResolver"/>
+	</bean>
+
+	<!-- 영구 도메인  Module Controller -->
+	<bean name="/admin/persistdomain/persistdomain.do" class="web.admin.persistdomain.control.PersistDomainController">
+		<property name="persistDomainService" ref="persistDomainService"/>
+		<property name="methodNameResolver" ref ="methodNameResolver"/>
+		
+	</bean>	
+
+	<!-- Manager Module Controller -->
+	<bean name="/admin/manager/manager.do" class="web.admin.manager.control.ManagerController">
+		<property name="managerService" ref="managerService"/>
+		<property name="methodNameResolver" ref ="methodNameResolver"/>
+	</bean>
+
+	<!-- DB연동 -->
+	<bean name="/admin/dbconnect/dbconnect.do" class="web.admin.dbconnect.control.DbConnectController">
+		<property name="dbConnectService" ref="dbConnectService"/>
+		<property name="methodNameResolver" ref ="methodNameResolver"/>
+	</bean>
+
+	<!--접근 IP 제한 관리 -->
+	<bean name="/admin/accessip/accessip.do" class="web.admin.accessip.control.AccessIPController">
+		<property name="accessIPService" ref="accessIPService"/>
+		<property name="methodNameResolver" ref ="methodNameResolver"/>
+	</bean>
+	
+	<!-- 필터 관리자 -->
+	<bean name="/admin/filter/filtermanager.do" class="web.admin.filtermanager.control.FilterManagerController">
+		<property name="filterManagerService" ref="filterManagerService"/>
+		<property name="methodNameResolver" ref ="methodNameResolver"/>
+	</bean>
+	
+	<!-- 로그인 이력 -->
+	<bean name="/admin/loginhistory/loginhistory.do" class="web.admin.loginhistory.control.LoginHistoryController">
+		<property name="loginHistoryService" ref="loginHistoryService"/>
+		<property name="methodNameResolver" ref ="methodNameResolver"/>
+	</bean>
+
+	<!-- ############ 회원검색UI 관리 ##########################-->
+	<bean name="/admin/targetmanager/targetmanager.do" class="web.admin.targetmanager.control.TargetManagerController">
+		<property name="targetManagerService" ref="targetManagerService"/>
+		<property name="methodNameResolver" ref ="methodNameResolver"/>
+	</bean>
+
+	
+
+	
+	<!-- #####################################파일업로드############################# --> 
+	
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="maxUploadSize">
+			<value>110000000</value> 
+		</property>
+		<property name="uploadTempDir" ref="uploadDirResource" />
+	</bean>
+
+	<bean id="uploadDirResource" class="org.springframework.core.io.FileSystemResource">
+		<constructor-arg>
+			<value>/home/pshyun/mine/ThunderMail/apache-tomcat-7.0.40/webapps/tm/upload/</value>
+		</constructor-arg>
+	</bean>
+	
+	<bean id="methodNameResolver" class="org.springframework.web.servlet.mvc.multiaction.ParameterMethodNameResolver">
+		<property name="paramName">
+			<value>method</value>
+		</property>
+		<property name="defaultMethodName">
+			<value>main</value>
+		</property>
+	</bean>	
+
+
+
+<!-- ############ 반응정보 처리 ##########################-->
+	<bean name="/response/response.do" class="web.response.control.ResponseController">
+		<property name="responseService" ref="responseService"/>
+		<property name="methodNameResolver" ref ="methodNameResolver"/>
+	</bean>
+
+
+<!-- ############ 자동메일 관리  ##########################-->
+	<!--  자동메일 Module Controller -->
+	<bean name="/automail/automail.do" class="web.automail.control.AutoMailController">
+		<property name="autoMailService" ref="autoMailService"/>
+		<property name="methodNameResolver" ref ="methodNameResolver"/>
+	</bean>
+
+
+	<!-- ############ 기존발송자관리##########################-->
+	<bean name="/target/sendhistory/sendhistory.do" class="web.target.sendhistory.control.SendHistoryController">
+		<property name="sendHistoryService" ref="sendHistoryService"/>
+		<property name="methodNameResolver" ref ="methodNameResolver"/>
+	</bean>
+
+	<!-- ############ 유틸 DB Access ########################## -->
+	<bean name="/common/util/util.do" class="web.common.util.CommonAccessContoller">
+		<property name="commonAccessService" ref="commonAccessService"/>
+		<property name="methodNameResolver" ref ="methodNameResolver"/>
+	</bean>
+
+	
+	<!-- ############ 자동메일 API  ##########################-->
+	<bean name="/automail/automailapi.do" class="web.api.automail.control.AutoMailAPIController">
+		<property name="autoMailAPIService" ref="autoMailAPIService"/>
+		<property name="methodNameResolver" ref ="methodNameResolver"/>
+	</bean>
+
+
+	<!-- ############ 대량메일 API  ##########################-->
+	<bean name="/massmail/massmail.do" class="web.api.massmail.control.MassMailAPIController">
+		<property name="massMailAPIService" ref="massMailAPIService"/>
+		<property name="methodNameResolver" ref ="methodNameResolver"/>
+	</bean>
+
+
+	<!-- ############ 자동SMS 관리  ##########################-->
+	<!--  자동SMS Module Controller -->
+	<bean name="/autosms/autosms.do" class="web.autosms.control.AutoSMSController">
+		<property name="autoSMSService" ref="autoSMSService"/>
+		<property name="methodNameResolver" ref ="methodNameResolver"/>
+	</bean>
+
+	<!-- ############ 자동SMS API  ##########################-->
+	<bean name="/autosms/autosmsapi.do" class="web.api.autosms.control.AutosmsAPIController">
+		<property name="autosmsAPIService" ref="autosmsAPIService"/>
+		<property name="methodNameResolver" ref ="methodNameResolver"/>
+	</bean>
+
+
+
+	<!-- ############################대량SMS작성 관련 ####################################### --> 
+	<!-- 대량SMS  Module Controller -->
+	<bean name="/masssms/write/masssms.do" class="web.masssms.write.control.MassSMSController">
+		<property name="massSMSService" ref="massSMSService"/>
+		<property name="methodNameResolver" ref ="methodNameResolver"/>
+	</bean>	
+
+	<!-- ############################대량SMS통계 관련 ####################################### --> 
+	<!-- 대량SMS 통계  Module Controller -->
+	<bean name="/masssms/statistic/masssms.do" class="web.masssms.statistic.control.MassSMSStatController">
+		<property name="massSMSStatService" ref="massSMSStatService"/>
+		<property name="methodNameResolver" ref ="methodNameResolver"/>
+	</bean>	
+
+		<!-- 수신거부SMS Module Controller -->
+	<bean name="/admin/rejectsms/rejectsms.do" class="web.admin.rejectsms.control.RejectSMSController">
+		<property name="rejectSMSService" ref="rejectSMSService"/>
+		<property name="methodNameResolver" ref ="methodNameResolver"/>
+		<property name="realUploadPath">
+			<value>/home/pshyun/mine/ThunderMail/apache-tomcat-7.0.40/webapps/tm/upload/reject/</value>
+		</property>
+	</bean>
+		
+	<!-- 대량SMS 발송스케줄  Module Controller -->
+	<bean name="/masssms/schedule/schedule.do" class="web.masssms.schedule.control.ScheduleController">
+		<property name="smsScheduleService" ref="smsScheduleService"/>
+		<property name="methodNameResolver" ref ="methodNameResolver"/>
+	</bean>	
+
+	<!-- ############ 연동메일 관리  ##########################-->
+	<!--  연동메일 Module Controller -->
+	<bean name="/intermail/intermail.do" class="web.intermail.control.InterMailController">
+		<property name="interMailService" ref="interMailService"/>
+		<property name="methodNameResolver" ref ="methodNameResolver"/>
+		<property name="realUploadPath">
+			<value>/home/pshyun/mine/ThunderMail/apache-tomcat-7.0.40/webapps/tm/upload/intermail/</value>
+		</property>
+	</bean>
+	
+	
+	<!-- ############ 타겟 이관 ########################## -->
+	<bean name="/common/util/transfertarget.do" class="web.common.util.TransferTargetController">
+		<property name="transferTargetService" ref="transferTargetService"/>
+		<property name="methodNameResolver" ref ="methodNameResolver"/>
+	</bean>
+
+</beans>

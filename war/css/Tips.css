@@ -1,0 +1,51 @@
+.tooltip{
+	width: 200px; color:#000;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	text-decoration:none;
+	text-align:center;
+	}
+
+.tooltip span.top{padding: 30px 8px 0;
+    background: url(../images/tips.gif) no-repeat top}
+
+.tooltip b.bottom{padding:3px 8px 15px;color: #548912;
+    background: url(../images/tips.gif) no-repeat bottom}
+
+.tooltip span.top_red{padding: 41px 8px 0;
+    background: url(../images/tips_red.gif) no-repeat top}
+
+.tooltip b.bottom_red{padding:3px 8px 15px;color: #548912;
+    background: url(../images/tips_red.gif) no-repeat bottom}
+
+
+.small_tooltip{
+	width: 97px; color:#000;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	text-decoration:none;
+	text-align:center;
+	}
+
+.small_tooltip span.top{padding: 30px 8px 0;
+    background: url(../images/small_tips.gif) no-repeat top}
+
+.small_tooltip b.bottom{padding:3px 8px 15px;color: #548912;
+    background: url(../images/small_tips.gif) no-repeat bottom}
+
+    
+
+.big_tooltip{
+	width: 400px; color:#000;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	text-decoration:none;
+	text-align:center;
+	}
+
+.big_tooltip span.top{padding: 30px 8px 0;
+    background: url(../images/big_tips.gif) no-repeat top}
+
+.big_tooltip b.bottom{padding:3px 8px 15px;color: #548912;
+    background: url(../images/big_tips.gif) no-repeat bottom}
+    

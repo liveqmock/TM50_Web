@@ -1,0 +1,204 @@
+
+img, input, select {
+	vertical-align:middle;
+}
+
+
+.search_wrapper {margin-bottom:5px;}
+.search_wrapper div {float:left;margin-top:3px;margin-left:4px}
+.search_wrapper .start{margin-left:0px}
+.search_wrapper .schedule{margin-left:6px}
+.search_wrapper .text{margin-top:8px}
+.search_wrapper .right{float:right}
+.search_wrapper .my{margin-top:7px;background-color:#6FB5D1;width:15px;height:15px}
+.search_wrapper .mygroup{margin-top:7px;background-color:#FFDE8C;width:15px;height:15px}
+.search_wrapper .outer{margin-top:7px;background-color:#C5CFd4;width:15px;height:15px}
+.search_wrapper .explain{margin-right:7px;margin-top:7px;height:15px;line-height:20px;}
+.search_wrapper td {margin-right:10px}
+
+
+.page_wrapper {margin-top:10px}
+
+.main_button {float: right}
+
+.panel-header-ball {
+	float: left;
+	height: 26px;
+	margin: 0px 5px 5px 5px;
+	text-align: right;
+}
+
+
+/** 버튼 **/
+/* #btn_g */
+
+.btn_g a{display:block; background:url(../images/btn_g.gif) left 0; float:left; font-family: "Dotum", "돋움","verdana" ; font-size: 11px; font-weight:normal; letter-spacing:-1px; color:#666666; padding-left:6px; text-decoration:none; height:21px; cursor:pointer; margin-right:3px; overflow:hidden;}
+.btn_g a:hover{background:url(../images/btn_g.gif) left -21px;  }
+.btn_g a span{display:block; float:left; background:url(../images/btn_g.gif) right 0; line-height:220%; padding-right:6px; height:21px; overflow:hidden;  }
+.btn_g a:hover span{background:url(../images/btn_g.gif) right -21px; color:#000000;  }
+
+
+/** 버튼 **/
+/* #btn_b */
+
+.btn_b a{display:block; background:url(../images/btn_b.gif) left 0; float:left; font-family: "Dotum", "돋움","verdana" ; font-size: 11px; font-weight:normal; letter-spacing:-1px; color:#666666; padding-left:6px; text-decoration:none; height:21px; cursor:pointer; margin-right:3px; overflow:hidden;}
+.btn_b a:hover{background:url(../images/btn_b.gif) left -21px;  }
+.btn_b a span{display:block; float:left; background:url(../images/btn_b.gif) right 0; line-height:220%; padding-right:6px; height:21px; overflow:hidden;  }
+.btn_b a:hover span{background:url(../images/btn_b.gif) right -21px; color:#000000;  }
+
+/** 버튼 **/
+/* #btn_r */
+
+.btn_r a{display:block; background:url(../images/btn_r.gif) left 0; float:left; font-family: "Dotum", "돋움","verdana" ; font-size: 11px; font-weight:normal; letter-spacing:-1px; color:#666666; padding-left:6px; text-decoration:none; height:21px; cursor:pointer; margin-right:3px; overflow:hidden;}
+.btn_r a:hover{background:url(../images/btn_r.gif) left -21px;  }
+.btn_r a span{display:block; float:left; background:url(../images/btn_r.gif) right 0; line-height:220%; padding-right:6px; height:21px; overflow:hidden;  }
+.btn_r a:hover span{background:url(../images/btn_r.gif) right -21px; color:#000000;  }
+
+/** 버튼 **/
+/* #btn_green */
+
+.btn_green a{display:block; background:url(../images/btn_green.gif) left 0; float:left; font-family: "Dotum", "돋움","verdana" ; font-size: 11px; font-weight:normal; letter-spacing:-1px; color:#666666; padding-left:6px; text-decoration:none; height:21px; cursor:pointer; margin-right:3px; overflow:hidden;}
+.btn_green a:hover{background:url(../images/btn_green.gif) left -21px;  }
+.btn_green a span{display:block; float:left; background:url(../images/btn_green.gif) right 0; line-height:220%; padding-right:6px; height:21px; overflow:hidden;  }
+.btn_green a:hover span{background:url(../images/btn_green.gif) right -21px; color:#000000;  }
+
+
+/* 라운드 테이블 */
+.roundtable {
+	text-align: left;
+}
+.roundtable .gray_border {position:absolute;background:url("../images/box_border.gif") repeat ;padding:0;height:29px;}
+.roundtable .r1gr {position:absolute;background:url("../images/box_r1gr02.gif") repeat ;padding:0;height:29px;}
+
+/* 데쉬 박스 */
+.dash_box {
+  background: #fff url('../images/dash-box.gif') top left no-repeat;
+  padding: 8px 10px;
+  //margin-bottom: 25px;
+  /*overflow: hidden;*/
+  border-bottom: 1px solid #e5e5e5;
+  border-right: 1px solid #e5e5e5;
+}
+
+.dash_box h2 {
+  border-bottom: 1px dotted #ccc;
+  padding-bottom: 2px;
+  margin-bottom: 10px;
+  font: bold 22px 'trebuchet ms', arial, helvetica, verdana, sans-serif, '돋움'; 
+  letter-spacing: -1px; 
+  margin: 0 0 5px 0;  
+  color: #7191C1;
+}
+.dash_box h2.move {
+  cursor: move;
+}
+
+.dash_box_icon {
+  float: left;
+  margin: 5px 5px 0 0;
+}
+
+.dash_box_tabs {
+  float: right;
+  font-size: 11px;
+}
+.dash_box_tabs a, .dash_box_tabs a:visited {
+  margin-right: 5px;
+}
+.dash_box_tabs a.current {
+  color: #000;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.target_tr td {
+	border-bottom: 1px dotted #ccc;
+	padding: 2px;
+	text-align: center;
+}
+
+.schedule_wrapper{margin-left:6px}
+.schedule_wrapper .date{background-color:#ffdcdc;vertical-align:center;}
+.schedule_wrapper .movedate{margin-top:7px;margin-bottom:5px;text-align:center}
+.schedule_wrapper table{background-color:#ffffff;border-spacing:1px;padding:0px;border:1px solid #CCCCCC}
+.schedule_wrapper tr{background-color:#FAFAFA}
+/*.schedule_wrapper th{height:30px;color:#679dee;background-color:#ebf3fa;text-align:center}*/
+.schedule_wrapper th{height:23px;text-align:center;background:url("../images/box_border.gif")}
+.schedule_wrapper td{width:300px;vertical-align:top;height:80px;color:#679dee}
+.schedule_wrapper .sun{color:#f65656}
+.schedule_wrapper .my{background-color:#6FB5D1;border:1px solid #ffffff}
+.schedule_wrapper .mygroup{background-color:#FFDE8C;border:1px solid #ffffff}
+.schedule_wrapper .outer{background-color:#C5CFd4;border:1px solid #ffffff}
+.schedule_wrapper .today{background-color:#F2EAEA}
+
+.show_wrapper {margin-bottom:5px;}
+.show_wrapper div {margin-top:5px;margin-left:10px;clear:both;}
+.show_wrapper a{color: #3f3f3f}
+/*.show_wrapper .no{color:#CCCCCC;float:left;width:20px;text-align:right;display:block}*/
+.show_wrapper .right{float:right}
+.show_wrapper .line{height:1px;background:#888888;margin-right:7px}
+
+.massmail_wrapper{width:98%}
+.massmail_wrapper .right{float:right;margin:5px 0 5px 5px}
+.massmail_wrapper .left{float:left;padding-top:2px;margin-right:5px}
+.massmail_wrapper .text{float:left;padding-top:6px;margin-right:5px}
+.massmail_wrapper .target{height:100px;width:100%;overflow-y:auto;border:1px solid #A7C2D8}
+.massmail_wrapper .set_wrapper{clear:both;border:0px solid #D1D1D1;height:10%;padding:0px}
+.massmail_wrapper .hidden{display:none;width:100%}
+
+.masssms_wrapper{width:98%}
+.masssms_wrapper .right{float:right;margin:5px 0 5px 5px}
+.masssms_wrapper .left{float:left;padding-top:2px;margin-right:5px}
+.masssms_wrapper .text{float:left;padding-top:6px;margin-right:5px}
+.masssms_wrapper .target{height:100px;width:100%;overflow-y:auto;border:1px solid #A7C2D8}
+.masssms_wrapper .set_wrapper{clear:both;border:0px solid #D1D1D1;height:10%;padding:0px}
+.masssms_wrapper .hidden{display:none;width:100%}
+
+
+
+*:first-child+html div.remoteControl_wrapper {margin-left:-125px;margin-top:10px;}
+/*리모콘*/
+.remoteControl_wrapper {position:absolute;margin-left:-90px;margin-top:-5px;}
+.remoteControl{width:99px;padding-bottom:5px; background:url(../images/remote_bg_bot.gif) no-repeat left bottom;}
+.remoteControl h6{position:relative; height:19px; padding:9px 0 0 8px; color:#757575; font-size:11px; font-weight:bold;letter-spacing:-1px;background:url(../images/remote_bg_top.gif) no-repeat left top; text-align:left}
+.remoteControl h6 .btnClose{ position:absolute; right:6px; top:6px;}
+.remoteBox{clear:both; width:99px; background:url(../images/remote_bg.gif) repeat-y left top;}
+.remoteBtn{display:none;height:25px;line-height:27px;border-top:1px dotted #CCCCCC;padding:0 3px;}
+.remoteBtn a{display:block;height:25px;color:#000000}
+.remoteBtn a:hover{background:#b6bdd2}
+
+/*리모콘2*/
+.remoteControl_wrapper2 {position:absolute;margin-left:-200px;margin-top:-5px;}
+.remoteControl2{width:500px;padding-bottom:5px; background:url(../images/remote_bg_bot2.gif) no-repeat left bottom;}
+.remoteControl2 h6{position:relative; height:19px; padding:9px 0 0 8px; color:#757575; font-size:11px; font-weight:bold;letter-spacing:-1px;background:url(../images/remote_bg_top2.gif) no-repeat left top; text-align:left}
+.remoteControl2 h6 .btnClose{ position:absolute; right:6px; top:6px;}
+.remoteBox2{clear:both; width:500px; background:url(../images/remote_bg2.gif) repeat-y left top;text-align:left}
+.remoteBtn2{height:25px;line-height:25px;margin-left:10px;}
+
+/*Help Desk*/
+.helpdesk_wrapper{margin:-5px;padding:-5px;}
+.helpdesk_wrapper .menu{height:25px;line-height:27px;border-bottom:1px dotted #CCCCCC}
+.helpdesk_wrapper .menu a{display:block;height:25px;color:#3f3f3f}
+.helpdesk_wrapper .menu a:hover{background:#b6bdd2}
+
+
+/* SMS */
+.smsbox
+{
+    word-break:break-all;
+	BORDER-BOTTOM: gray 0px solid;
+	BORDER-LEFT: gray 0px solid;
+	BORDER-RIGHT: gray 0px solid;
+    BORDER-TOP: gray 0px solid;
+	PADDING-BOTTOM: 0px;
+	PADDING-LEFT: 0px;
+	PADDING-RIGHT: 0px;
+	PADDING-TOP: 0px;
+    font-size:9pt;
+    border:0;
+    background-color:
+    transparent;
+    overflow:hidden;
+    font-family: "굴림체";
+}
+

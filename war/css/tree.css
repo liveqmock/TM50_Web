@@ -1,0 +1,472 @@
+
+Mif.Tree Demos
+Tree
+
+    *
+      Simple Tree
+    *
+      Tree select event demo
+    *
+      Tree toggle event demo
+    *
+      Tree other style
+    *
+      Add/remove node type demo
+    *
+      File tree
+    *
+      DOM Tree
+    *
+      HTML Tree
+    *
+      Using expandTo property demo
+
+More
+
+    *
+      Key navigation implementation demo
+    *
+      Tree simple checkboxes
+    *
+      Tree dependences checkboxes
+    *
+      Tree row highlighting.
+    *
+      Tree drag'n'drop
+    *
+      D'n'd with drop container
+    *
+      D'n'd with drop confirmation
+    *
+      Rename node
+    *
+      sortable tree
+    *
+      Add node
+    *
+      Another add node demo
+
+htmljscss
+
+#tree_container{
+height:500px;
+width:500px;
+position:relative;
+}
+
+
+/*...................................................................................
+===============GLOBAL=================
+......................................................................................*/
+
+.mif-tree-wrapper{
+/*position: absolute;*/
+width: 100%;
+height:100%;
+margin:0;
+padding:0;
+overflow:auto;
+/*font-family:sans-serif;*/
+/*font-size:12px;*/
+line-height:18px;/******Tree node height******/
+white-space:nowrap;
+cursor:default;
+}
+
+.mif-tree-bg{
+width:100%;
+height:100%;
+position:absolute;
+overflow:hidden;
+}
+
+.mif-tree-bg-container{
+width:100%;
+display:none;
+}
+
+.mif-tree-bg-node{
+width:100%;
+height:18px;
+}
+
+.mif-tree-bg-selected{
+background-color:#dcd7ab;
+}
+
+.mif-tree-wrapper:focus{
+outline:0;
+}
+
+.mif-tree-wrapper span{
+padding-bottom:2px;
+padding-top:2px;
+cursor:inherit;
+}
+
+.mif-tree-children{
+padding-left:18px;
+width:18px;
+}
+
+.mif-tree-node{
+width:18px;
+position:static;
+background:url('../images/trees/line.gif') repeat-y 8px 0px;
+/*background:url('../images/trees/line.gif') repeat-y 1px 0px;*/
+}
+
+.mif-tree-node-last{
+background:url('../images/trees/line.gif') no-repeat 8px 0px;
+/*background:url('../images/trees/line.gif') no-repeat 1px -8px;*/
+}
+
+.mif-tree-name{
+cursor: default;
+overflow:hidden;
+margin-left:4px;
+}
+
+.mif-tree-name a{
+color:red;
+}
+
+.mif-tree-name a:hover{
+color:blue;
+}
+
+
+.mif-tree-node-wrapper{
+background:url('../images/trees/horizontal-line.gif') no-repeat 9px center;
+}
+
+/*...................................................................................
+================GADJETS=================
+......................................................................................*/
+
+.mif-tree-gadjet{
+background-image:url('../images/trees/gadjets.gif');
+padding-right: 16px;
+z-index:1;
+overflow:hidden;
+background-repeat:no-repeat;
+cursor:default;
+}
+
+.mif-tree-gadjet-none{
+background:none;
+}
+
+.mif-tree-gadjet-minus{
+background-position: 0px 50%;
+}
+
+.mif-tree-gadjet-plus{
+background-position: -18px 50%;
+}
+
+
+.mif-tree-gadjet-hover .mif-tree-gadjet-minus{
+background-position: -54px 50%;
+}
+
+.mif-tree-gadjet-hover .mif-tree-gadjet-plus{
+background-position: -72px 50%;
+}
+
+
+
+/*.mif-tree-gadjet-hover{
+background-image:url('../images/trees/gadjets-hover.gif');
+}*/
+
+
+
+
+/*...................................................................................
+================ICONS=================
+......................................................................................*/
+.mif-tree-icon{
+padding-right:18px;
+background-position:0 50%;
+background-repeat:no-repeat;
+cursor:inherit;
+}
+
+.mif-tree-root-open-icon{
+background-image:url('../images/trees/people.gif')
+}
+
+.blue-open-icon{
+background-image:url('../images/trees/user_group.gif')
+}
+
+.blue-close-icon{
+background-image:url('../images/trees/user_group.gif')
+}
+
+.yellow-open-icon{
+background-image:url('../images/trees/folderopen.gif')
+}
+
+.yellow-close-icon{
+background-image:url('../images/trees/folderclose.gif')
+}
+
+.user_group-icon{
+background-image:url('../images/trees/user_group.gif')
+}
+
+
+
+.super_person-icon {
+background-image:url('../images/trees/super_user.gif')
+}
+
+.system_person-icon {
+background-image:url('../images/trees/system_user.gif')
+}
+
+.group_person-icon {
+background-image:url('../images/trees/group_user.gif')
+}
+
+
+.person-icon{
+background-image:url('../images/trees/man.gif')
+}
+
+
+.computer-icon{
+background-image:url('../images/trees/base.gif')
+}
+
+.file-icon{
+background-image:url('../images/trees/file.gif')
+}
+
+.csv-icon{
+background-image:url('../images/trees/csv_file.gif')
+}
+
+.query-icon{
+background-image:url('../images/trees/database.gif')
+}
+
+.dbset-icon{
+background-image:url('../images/trees/dbset.gif')
+}
+
+.write-mail-icon{
+background-image:url('../images/trees/write_mail.gif')
+}
+
+.send-mail-icon{
+background-image:url('../images/trees/send_mail.gif')
+}
+
+
+.mif-tree-loader-open-icon,.mif-tree-loader-close-icon{
+background-image:url('../images/trees/mootree_loader.gif');
+}
+
+.mif-tree-book-icon{
+background-image:url('../images/trees/book_icon.gif');
+}
+
+.mif-tree-bin-open-icon{
+background-image:url('../images/trees/bin_open_icon.gif');
+}
+
+.mif-tree-bin-close-icon{
+background-image:url('../images/trees/bin_close_icon.gif');
+}
+
+
+
+
+.all-share-open {
+	background-image:url('../images/trees/all-share-open.gif');
+}
+
+.all-share-close {
+	background-image:url('../images/trees/all-share-close.gif');
+}
+
+.group-share-open {
+	background-image:url('../images/trees/group-share-open.gif');
+}
+
+.group-share-close {
+	background-image:url('../images/trees/group-share-close.gif');
+}
+
+.user-folder-open {
+	background-image:url('../images/trees/user_folder_open.gif');
+}
+
+.user-folder-close {
+	background-image:url('../images/trees/user_folder_close.gif');
+}
+.root_color {
+	color: #2051B5;
+	font-style: normal;
+}
+/*...................................................................................
+================SELECTION=================
+......................................................................................*/
+
+.mif-tree-node-selected .mif-tree-name{
+background-color: #9DBDE1;
+color:#fff;
+text-transform:italic;
+}
+
+.mif-tree-highlighter{
+height:18px;
+overflow:hidden;
+width:100%;
+background:#b64553;
+position:absolute;
+}
+
+
+
+
+
+
+
+
+/*...................................................................................
+===============D'n'D=================
+......................................................................................*/
+.mif-tree-pointer{
+height:1px;
+overflow: hidden;
+position: absolute;
+background-image:url('../images/trees/1.gif');
+background-repeat:repeat-x;
+background-color:#292fef;
+}
+
+
+.mif-tree-ghost{
+z-index: 10000;
+background-color:#fff;
+border:solid 2px #e8e8f7;
+/*padding-left:2px;*/
+padding:3px;
+opacity: .8;
+}
+
+.mif-tree-ghost .mif-tree-node-wrapper{
+background:none;
+}
+
+.mif-tree-ghost span.mif-tree-text{
+padding-top:1px;
+padding-bottom:1px;
+}
+
+.mif-tree-ghost-icon{
+padding-left:16px;
+background-color:#fff;
+background-repeat:no-repeat;
+background-image:url('../images/trees/dropzone.gif');
+}
+
+.mif-tree-ghost-after{
+background-position:-64px 0px;
+}
+
+.mif-tree-ghost-before{
+background-position:-48px 0px;
+}
+
+.mif-tree-ghost-between{
+background-position:-16px 0px;
+}
+
+.mif-tree-ghost-inside{
+background-position:-0px 0px;
+}
+
+.mif-tree-ghost-notAllowed{
+background-position:-32px 0px;
+}
+
+.mif-tree-drag-current{
+background-color:#cfcfd8;
+}
+
+.mif-tree-replace{
+background-color:#99c8fb;
+}
+
+
+
+
+
+/*...................................................................................
+================CHECKBOX=================
+......................................................................................*/
+.mif-tree-checkbox{
+padding-left:18px;
+background-image:url('../images/trees/checkboxes.gif');
+background-repeat: no-repeat;
+}
+
+.mif-tree-node-checked{
+background-position:0px center;
+}
+
+.mif-tree-node-unchecked{
+background-position:-18px center;
+}
+
+.mif-tree-node-nochecked{
+background-position:-108px center;
+}
+
+.mif-tree-node-group-nochecked{
+background-position:-126px center;
+}
+
+.mif-tree-hover-checkbox .mif-tree-node-checked{
+background-position:-36px center;
+}
+
+.mif-tree-hover-checkbox .mif-tree-node-unchecked{
+background-position:-54px center;
+}
+
+.mif-tree-node-partially{
+background-position:-72px center;
+}
+
+.mif-tree-hover-checkbox .mif-tree-node-partially{
+background-position:-90px center;
+}
+
+
+
+
+
+
+/*...................................................................................
+===============RENAME=================
+......................................................................................*/
+.mif-tree-rename{
+display: inline;
+line-height: 14px;
+height:14px;
+cursor: default;
+overflow:hidden;
+/*
+font-family:sans-serif;
+font-size:12px;
+*/
+padding:1px 0;
+border:solid 1px black;
+}
+

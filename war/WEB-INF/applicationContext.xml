@@ -1,0 +1,1361 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns:aop="http://www.springframework.org/schema/aop"
+         xmlns:tx="http://www.springframework.org/schema/tx"
+         xsi:schemaLocation="http://www.springframework.org/schema/beans 
+           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+           http://www.springframework.org/schema/aop 
+           http://www.springframework.org/schema/aop/spring-aop-2.0.xsd
+           http://www.springframework.org/schema/tx 
+           http://www.springframework.org/schema/tx/spring-tx-2.0.xsd">
+
+
+	<bean id="proxyCreator" class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"/>
+	<bean id="ezmailLoggingAdvisor" class="org.springframework.aop.support.DefaultPointcutAdvisor">
+		<property name="advice">
+			<ref local="ezmailLoggingAdvice"/>
+		</property>
+	</bean>
+
+	<bean id="ezmailLoggingAdvice" class="web.common.advice.EzMailLoggingAdvice"/>
+
+
+	<!--
+		 ########################  [MySQL5.1 DB 설정] #############################
+	-->
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName">
+			<value>com.mysql.jdbc.Driver</value>
+		</property>
+		<property name="url">
+			<value>jdbc:mysql://localhost:3306/tm?characterEncoding=UTF-8</value>
+		</property>
+		<property name="username">
+			<value>ThunderMail</value>
+		</property>
+		<property name="password">
+			<value>andwise</value>
+		</property>
+		
+		
+<!-- 		<property name="maxActive">
+			<value>25</value>
+		</property>
+		<property name="maxIdle">
+			<value>10</value>
+		</property>
+		<property name="maxWait">
+			<value>-1</value>
+		</property>
+		<property name="removeAbandoned">
+			<value>true</value>
+		</property>
+		<property name="removeAbandonedTimeout">
+			<value>60</value>
+		</property>
+		<property name="logAbandoned">
+			<value>true</value>
+		</property>
+		<property name="validationQuery">
+			<value>select 1</value>
+		</property> -->
+		
+	</bean>
+	
+	<!--
+		 ########################  [oracle DB 설정] #############################
+	
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName">
+			<value>oracle.jdbc.driver.OracleDriver</value> 
+		</property>
+		<property name="url">
+
+			<value>jdbc:oracle:thin:@110.15.51.44:1521:ORCL</value>
+			
+	
+		</property>
+		<property name="username">
+			<value>ThunderMail</value>
+		</property>
+		<property name="password">
+			<value>andwise</value>
+		</property>
+		
+		
+		<property name="maxActive">
+			<value>25</value>
+		</property>
+		<property name="maxIdle">
+			<value>10</value>
+		</property>
+		<property name="maxWait">
+			<value>-1</value>
+		</property>
+		<property name="removeAbandoned">
+			<value>true</value>
+		</property>
+		<property name="removeAbandonedTimeout">
+			<value>60</value>
+		</property>
+		<property name="logAbandoned">
+			<value>true</value>
+		</property>
+		<property name="validationQuery">
+			<value>select 1 from dual</value>
+		</property>
+		<property name="validationQueryTimeout">
+			<value>3600</value>
+		</property>
+		
+	</bean>
+	-->
+	
+	<!--  ########################  [MSSQL DB 설정] ############################# 
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName">
+			<value>com.microsoft.sqlserver.jdbc.SQLServerDriver</value>
+		</property>
+		<property name="url">
+			<value>jdbc:sqlserver://192.168.0.31:1433;DatabaseName=tm_ms20120618</value>
+			
+		</property>
+		<property name="username">
+			<value>test</value>
+		</property>
+		<property name="password">
+			<value>andwise12#$</value>
+		</property>
+		
+		
+		<property name="maxActive">
+			<value>25</value>
+		</property>
+		<property name="maxIdle">
+			<value>10</value>
+		</property>
+		<property name="maxWait">
+			<value>-1</value>
+		</property>
+		<property name="removeAbandoned">
+			<value>true</value>
+		</property>
+		<property name="removeAbandonedTimeout">
+			<value>60</value>
+		</property>
+		<property name="logAbandoned">
+			<value>true</value>
+		</property>
+		<property name="validationQuery">
+			<value>SELECT NOW()</value>
+		</property>
+		<property name="validationQueryTimeout">
+			<value>3600</value>
+		</property>
+	</bean>
+	-->
+
+
+	<bean id="DBJdbcDaoSupport" abstract="true" 	class="web.common.dao.DBJdbcDaoSupport">
+		<property name="dataSource">
+			<ref local="dataSource"/>
+		</property>
+		<property name="messageSourceAccessor">
+			<ref bean="messageSourceAccessor"/>
+		</property>
+	</bean>	
+	
+
+
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<bean id="txProxyTemplate" abstract="true" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+		<property name="transactionManager">
+			<ref bean="transactionManager" />
+		</property>
+
+		<property name="transactionAttributes">
+			<props>
+				<prop key="insert*">PROPAGATION_REQUIRED</prop>
+				<prop key="update*">PROPAGATION_REQUIRED</prop>
+				<prop key="delete*">PROPAGATION_REQUIRED</prop>
+				<prop key="*">PROPAGATION_REQUIRED,readOnly</prop>
+			</props>
+		</property>
+	</bean>
+
+  <!-- ########################## 관리자 메뉴 ####################################### -->
+
+  
+	<!-- 로그인 설정 -->
+	<bean id="loginDAO" class="web.admin.login.dao.LoginDAOImpl">
+		<property name="dataSource">
+			<ref local="dataSource"/>
+		</property>
+	</bean>
+
+	<bean id="loginServiceTarget" class="web.admin.login.service.LoginServiceImpl" >
+		<property name="loginDAO">
+			<ref local="loginDAO" />
+		</property>
+	</bean>
+
+
+	<bean id="loginService" parent="txProxyTemplate">
+		<property name="target">
+			<ref local="loginServiceTarget" />
+		</property>
+		<property name="transactionAttributes">
+			<props>
+				<prop key="insert*">PROPAGATION_REQUIRED</prop>
+				<prop key="update*">PROPAGATION_REQUIRED</prop>
+				<prop key="delete*">PROPAGATION_REQUIRED</prop>			
+				<prop key="*">PROPAGATION_REQUIRED,readOnly</prop>
+			</props>
+		</property>
+	</bean>
+
+
+	<!-- 공지사항 설정 -->
+	<bean id="boardDAO" class="web.admin.board.dao.BoardDAOImpl">
+		<property name="dataSource">
+			<ref local="dataSource"/>
+		</property>
+	</bean>
+
+	<bean id="boardServiceTarget" class="web.admin.board.service.BoardServiceImpl" >
+		<property name="boardDAO">
+			<ref local="boardDAO" />
+		</property>
+	</bean>
+
+
+	<bean id="boardService" parent="txProxyTemplate">
+		<property name="target">
+			<ref local="boardServiceTarget" />
+		</property>
+		<property name="transactionAttributes">
+			<props>
+				<prop key="insert*">PROPAGATION_REQUIRED</prop>
+				<prop key="update*">PROPAGATION_REQUIRED</prop>
+				<prop key="delete*">PROPAGATION_REQUIRED</prop>			
+				<prop key="*">PROPAGATION_REQUIRED,readOnly</prop>
+			</props>
+		</property>
+	</bean>
+
+
+
+ <!-- 메뉴 설정 -->
+	<bean id="menuDAO" class="web.admin.menu.dao.MenuDAOImpl">
+		<property name="dataSource">
+			<ref local="dataSource"/>
+		</property>
+	</bean>
+
+	<bean id="menuServiceTarget" class="web.admin.menu.service.MenuServiceImpl" >
+		<property name="menuDAO">
+			<ref local="menuDAO" />
+		</property>
+	</bean>
+
+	<bean id="menuService" parent="txProxyTemplate">
+		<property name="target">
+			<ref local="menuServiceTarget" />
+		</property>
+		<property name="transactionAttributes">
+			<props>
+				<prop key="insert*">PROPAGATION_REQUIRED</prop>
+				<prop key="update*">PROPAGATION_REQUIRED</prop>
+				<prop key="delete*">PROPAGATION_REQUIRED</prop>			
+				<prop key="*">PROPAGATION_REQUIRED,readOnly</prop>
+			</props>
+		</property>
+	</bean>
+
+
+	 <!-- 사용자그룹 설정 -->
+
+	<bean id="userGroupDAO" class="web.admin.usergroup.dao.UserGroupDAOImpl">
+		<property name="dataSource">
+			<ref local="dataSource"/>
+		</property>
+	</bean>
+
+	<bean id="userGroupServiceTarget" class="web.admin.usergroup.service.UserGroupServiceImpl" >
+		<property name="userGroupDAO">
+			<ref local="userGroupDAO" />
+		</property>
+	</bean>
+
+	<bean id="userGroupService" parent="txProxyTemplate">
+		<property name="target">
+			<ref local="userGroupServiceTarget" />
+		</property>
+		<property name="transactionAttributes">
+			<props>
+				<prop key="insert*">PROPAGATION_REQUIRED</prop>
+				<prop key="update*">PROPAGATION_REQUIRED</prop>
+				<prop key="delete*">PROPAGATION_REQUIRED</prop>			
+				<prop key="*">PROPAGATION_REQUIRED,readOnly</prop>
+			</props>
+		</property>
+	</bean>
+
+
+	<!-- DB/JDBC설정 -->
+	<bean id="dbJdbcSetDAO" class="web.admin.dbjdbcset.dao.DbJdbcSetDAOImpl">
+		<property name="dataSource">
+			<ref local="dataSource"/>
+		</property>
+	</bean>
+
+	<bean id="dbJdbcSetServiceTarget" class="web.admin.dbjdbcset.service.DbJdbcSetServiceImpl" >
+		<property name="dbJdbcSetDAO">
+			<ref local="dbJdbcSetDAO" />
+		</property>
+	</bean>
+
+	<bean id="dbJdbcSetService" parent="txProxyTemplate">
+		<property name="target">
+			<ref local="dbJdbcSetServiceTarget" />
+		</property>
+		<property name="transactionAttributes">
+			<props>
+				<prop key="insert*">PROPAGATION_REQUIRED</prop>
+				<prop key="update*">PROPAGATION_REQUIRED</prop>
+				<prop key="delete*">PROPAGATION_REQUIRED</prop>			
+				<prop key="*">PROPAGATION_REQUIRED,readOnly</prop>
+			</props>
+		</property>
+	</bean>
+	
+	<!-- 도메인 설정   -->
+	<bean id="domainSetDAO" class="web.admin.domainset.dao.DomainSetDAOImpl">
+		<property name="dataSource">
+			<ref local="dataSource"/>
+		</property>
+	</bean>
+	
+	<bean id="domainSetServiceTarget" class="web.admin.domainset.service.DomainSetServiceImpl" >
+		<property name="domainSetDAO">
+			<ref local="domainSetDAO" />
+		</property>
+	</bean>
+
+	<bean id="domainSetService" parent="txProxyTemplate">
+		<property name="target">
+			<ref local="domainSetServiceTarget" />
+		</property>
+		<property name="transactionAttributes">
+			<props>
+				<prop key="insert*">PROPAGATION_REQUIRED</prop>
+				<prop key="update*">PROPAGATION_REQUIRED</prop>
+				<prop key="delete*">PROPAGATION_REQUIRED</prop>			
+				<prop key="*">PROPAGATION_REQUIRED,readOnly</prop>
+			</props>
+		</property>
+	</bean>	
+	
+	<!-- 환경  설정   -->
+	<bean id="systemSetDAO" class="web.admin.systemset.dao.SystemSetDAOImpl">
+		<property name="dataSource">
+			<ref local="dataSource"/>
+		</property>
+	</bean>
+	
+	<bean id="systemSetServiceTarget" class="web.admin.systemset.service.SystemSetServiceImpl" >
+		<property name="systemSetDAO">
+			<ref local="systemSetDAO" />
+		</property>
+	</bean>
+
+	<bean id="systemSetService" parent="txProxyTemplate">
+		<property name="target">
+			<ref local="systemSetServiceTarget" />
+		</property>
+		<property name="transactionAttributes">
+			<props>
+				<prop key="update*">PROPAGATION_REQUIRED</prop>	
+				<prop key="*">PROPAGATION_REQUIRED,readOnly</prop>
+			</props>
+		</property>
+	</bean>	
+
+
+	<!-- 보내는 사람    -->
+	<bean id="senderDAO" class="web.admin.sender.dao.SenderDAOImpl">
+		<property name="dataSource">
+			<ref local="dataSource"/>
+		</property>
+	</bean>
+	
+	<bean id="senderServiceTarget" class="web.admin.sender.service.SenderServiceImpl" >
+		<property name="senderDAO">
+			<ref local="senderDAO" />
+		</property>
+	</bean>
+
+	<bean id="senderService" parent="txProxyTemplate">
+		<property name="target">
+			<ref local="senderServiceTarget" />
+		</property>
+		<property name="transactionAttributes">
+			<props>
+				<prop key="update*">PROPAGATION_REQUIRED</prop>	
+				<prop key="insert*">PROPAGATION_REQUIRED</prop>
+				<prop key="delete*">PROPAGATION_REQUIRED</prop>			
+				<prop key="*">PROPAGATION_REQUIRED,readOnly</prop>
+			</props>
+		</property>
+	</bean>	
+
+
+	<!-- 원투원정보   -->
+	<bean id="oneToOneDAO" class="web.admin.onetoone.dao.OneToOneDAOImpl">
+		<property name="dataSource">
+			<ref local="dataSource"/>
+		</property>
+	</bean>
+	
+	<bean id="oneToOneServiceTarget" class="web.admin.onetoone.service.OneToOneServiceImpl" >
+		<property name="oneToOneDAO">
+			<ref local="oneToOneDAO" />
+		</property>
+	</bean>
+
+	<bean id="oneToOneService" parent="txProxyTemplate">
+		<property name="target">
+			<ref local="oneToOneServiceTarget" />
+		</property>
+		<property name="transactionAttributes">
+			<props>
+				<prop key="update*">PROPAGATION_REQUIRED</prop>	
+				<prop key="insert*">PROPAGATION_REQUIRED</prop>
+				<prop key="delete*">PROPAGATION_REQUIRED</prop>			
+				<prop key="*">PROPAGATION_REQUIRED,readOnly</prop>
+			</props>
+		</property>
+	</bean>	
+
+   <!-- 대량메일 그룹 설정 -->
+
+	<bean id="massMailGroupDAO" class="web.admin.massmailgroup.dao.MassMailGroupDAOImpl">
+		<property name="dataSource">
+			<ref local="dataSource"/>
+		</property>
+	</bean>
+
+	<bean id="massMailGroupServiceTarget" class="web.admin.massmailgroup.service.MassMailGroupServiceImpl" >
+		<property name="massMailGroupDAO">
+			<ref local="massMailGroupDAO" />
+		</property>
+	</bean>
+
+	<bean id="massMailGroupService" parent="txProxyTemplate">
+		<property name="target">
+			<ref local="massMailGroupServiceTarget" />
+		</property>
+		<property name="transactionAttributes">
+			<props>
+				<prop key="insert*">PROPAGATION_REQUIRED</prop>
+				<prop key="update*">PROPAGATION_REQUIRED</prop>
+				<prop key="delete*">PROPAGATION_REQUIRED</prop>			
+				<prop key="*">PROPAGATION_REQUIRED,readOnly</prop>
+			</props>
+		</property>
+	</bean>
+
+	<!-- 대상자 그룹 설정 -->
+
+	<bean id="targetGroupDAO" class="web.admin.targetgroup.dao.TargetGroupDAOImpl">
+		<property name="dataSource">
+			<ref local="dataSource"/>
+		</property>
+	</bean>
+
+	<bean id="targetGroupServiceTarget" class="web.admin.targetgroup.service.TargetGroupServiceImpl" >
+		<property name="targetGroupDAO">
+			<ref local="targetGroupDAO" />
+		</property>
+	</bean>
+
+	<bean id="targetGroupService" parent="txProxyTemplate">
+		<property name="target">
+			<ref local="targetGroupServiceTarget" />
+		</property>
+		<property name="transactionAttributes">
+			<props>
+				<prop key="insert*">PROPAGATION_REQUIRED</prop>
+				<prop key="update*">PROPAGATION_REQUIRED</prop>
+				<prop key="delete*">PROPAGATION_REQUIRED</prop>			
+				<prop key="*">PROPAGATION_REQUIRED,readOnly</prop>
+			</props>
+		</property>
+	</bean>
+
+
+	<!-- 수신거부자메일 -->
+
+	<bean id="rejectMailDAO" class="web.admin.rejectmail.dao.RejectMailDAOImpl">
+		<property name="dataSource">
+			<ref local="dataSource"/>
+		</property>
+	</bean>
+
+	<bean id="rejectMailServiceTarget" class="web.admin.rejectmail.service.RejectMailServiceImpl" >
+		<property name="rejectMailDAO">
+			<ref local="rejectMailDAO" />
+		</property>
+	</bean>
+
+	<bean id="rejectMailService" parent="txProxyTemplate">
+		<property name="target">
+			<ref local="rejectMailServiceTarget" />
+		</property>
+		<property name="transactionAttributes">
+			<props>
+				<prop key="insert*">PROPAGATION_REQUIRED</prop>
+				<prop key="update*">PROPAGATION_REQUIRED</prop>
+				<prop key="delete*">PROPAGATION_REQUIRED</prop>			
+				<prop key="*">PROPAGATION_REQUIRED,readOnly</prop>
+			</props>
+		</property>
+	</bean>
+
+
+
+	   <!-- 영구적인 메일리스트  설정 -->
+
+	<bean id="persistFailDAO" class="web.admin.persistfail.dao.PersistFailDAOImpl">
+		<property name="dataSource">
+			<ref local="dataSource"/>
+		</property>
+	</bean>
+
+	<bean id="persistFailServiceTarget" class="web.admin.persistfail.service.PersistFailServiceImpl" >
+		<property name="persistFailDAO">
+			<ref local="persistFailDAO" />
+		</property>
+	</bean>
+
+	<bean id="persistFailService" parent="txProxyTemplate">
+		<property name="target">
+			<ref local="persistFailServiceTarget" />
+		</property>
+		<property name="transactionAttributes">
+			<props>
+				<prop key="insert*">PROPAGATION_REQUIRED</prop>
+				<prop key="update*">PROPAGATION_REQUIRED</prop>
+				<prop key="delete*">PROPAGATION_REQUIRED</prop>			
+				<prop key="*">PROPAGATION_REQUIRED,readOnly</prop>
+			</props>
+		</property>
+	</bean>
+
+	 <!-- 영구적인 도메인  설정 -->
+
+	<bean id="persistDomainDAO" class="web.admin.persistdomain.dao.PersistDomainDAOImpl">
+		<property name="dataSource">
+			<ref local="dataSource"/>
+		</property>
+	</bean>
+
+	<bean id="persistDomainServiceTarget" class="web.admin.persistdomain.service.PersistDomainServiceImpl" >
+		<property name="persistDomainDAO">
+			<ref local="persistDomainDAO" />
+		</property>
+	</bean>
+ 
+	<bean id="persistDomainService" parent="txProxyTemplate">
+		<property name="target">
+			<ref local="persistDomainServiceTarget" />
+		</property>
+		<property name="transactionAttributes">
+			<props>
+				<prop key="insert*">PROPAGATION_REQUIRED</prop>
+				<prop key="update*">PROPAGATION_REQUIRED</prop>
+				<prop key="delete*">PROPAGATION_REQUIRED</prop>			
+				<prop key="*">PROPAGATION_REQUIRED,readOnly</prop>
+			</props>
+		</property>
+	</bean>
+
+
+	 <!-- 연동DB설정-->
+	<bean id="dbConnectDAO" class="web.admin.dbconnect.dao.DbConnectDAOImpl">
+		<property name="dataSource">
+			<ref local="dataSource"/>
+		</property>
+	</bean>
+
+	<bean id="dbConnectServiceTarget" class="web.admin.dbconnect.service.DbConnectServiceImpl" >
+		<property name="dbConnectDAO">
+			<ref local="dbConnectDAO" />
+		</property>
+	</bean>
+ 
+	<bean id="dbConnectService" parent="txProxyTemplate">
+		<property name="target">
+			<ref local="dbConnectServiceTarget" />
+		</property>
+		<property name="transactionAttributes">
+			<props>
+				<prop key="insert*">PROPAGATION_REQUIRED</prop>
+				<prop key="update*">PROPAGATION_REQUIRED</prop>
+				<prop key="delete*">PROPAGATION_REQUIRED</prop>			
+				<prop key="*">PROPAGATION_REQUIRED,readOnly</prop>
+			</props>
+		</property>
+	</bean>
+	
+	<!-- 접근 IP 제한 관리  -->
+	<bean id="accessIPDAO" class="web.admin.accessip.dao.AccessIPDAOImpl">
+		<property name="dataSource">
+			<ref local="dataSource"/>
+		</property>
+	</bean>
+
+	<bean id="accessIPServiceTarget" class="web.admin.accessip.service.AccessIPServiceImpl" >
+		<property name="accessIPDAO">
+			<ref local="accessIPDAO" />
+		</property>
+	</bean>
+
+	<bean id="accessIPService" parent="txProxyTemplate">
+		<property name="target">
+			<ref local="accessIPServiceTarget" />
+		</property>
+		<property name="transactionAttributes">
+			<props>
+				<prop key="insert*">PROPAGATION_REQUIRED</prop>
+				<prop key="update*">PROPAGATION_REQUIRED</prop>
+				<prop key="delete*">PROPAGATION_REQUIRED</prop>			
+				<prop key="*">PROPAGATION_REQUIRED,readOnly</prop>
+			</props>
+		</property>
+	</bean>
+	
+	<!-- 필터 관리자 -->
+	<bean id="filterManagerDAO" class="web.admin.filtermanager.dao.FilterManagerDAOImpl">
+		<property name="dataSource">
+			<ref local="dataSource"/>
+		</property>
+	</bean>
+
+	<bean id="filterManagerServiceTarget" class="web.admin.filtermanager.service.FilterManagerServiceImpl" >
+		<property name="filterManagerDAO">
+			<ref local="filterManagerDAO" />
+		</property>
+	</bean>
+
+	<bean id="filterManagerService" parent="txProxyTemplate">
+		<property name="target">
+			<ref local="filterManagerServiceTarget" />
+		</property>
+		<property name="transactionAttributes">
+			<props>
+				<prop key="insert*">PROPAGATION_REQUIRED</prop>
+				<prop key="update*">PROPAGATION_REQUIRED</prop>
+				<prop key="delete*">PROPAGATION_REQUIRED</prop>			
+				<prop key="*">PROPAGATION_REQUIRED,readOnly</prop>
+			</props>
+		</property>
+	</bean>
+  
+
+	<!-- 로그인 이력 -->
+	<bean id="loginHistoryDAO" class="web.admin.loginhistory.dao.LoginHistoryDAOImpl">
+		<property name="dataSource">
+			<ref local="dataSource"/>
+		</property>
+	</bean>
+
+	<bean id="loginHistoryServiceTarget" class="web.admin.loginhistory.service.LoginHistoryServiceImpl" >
+		<property name="loginHistoryDAO">
+			<ref local="loginHistoryDAO" />
+		</property>
+	</bean>
+
+	<bean id="loginHistoryService" parent="txProxyTemplate">
+		<property name="target">
+			<ref local="loginHistoryServiceTarget" />
+		</property>
+		<property name="transactionAttributes">
+			<props>
+				<prop key="insert*">PROPAGATION_REQUIRED</prop>
+				<prop key="update*">PROPAGATION_REQUIRED</prop>
+				<prop key="delete*">PROPAGATION_REQUIRED</prop>			
+				<prop key="*">PROPAGATION_REQUIRED,readOnly</prop>
+			</props>
+		</property>
+	</bean>
+
+	<!-- #######################회원검색UI 관리 ##################### -->
+	<bean id="targetManagerDAO" class="web.admin.targetmanager.dao.TargetManagerDAOImpl">
+		<property name="dataSource">
+			<ref local="dataSource"/>
+		</property>
+	</bean>
+
+	<bean id="targetManagerServiceTarget" class="web.admin.targetmanager.service.TargetManagerServiceImpl" >
+		<property name="targetManagerDAO">
+			<ref local="targetManagerDAO" />
+		</property>
+	</bean>
+
+	<bean id="targetManagerService" parent="txProxyTemplate">
+		<property name="target">
+			<ref local="targetManagerServiceTarget" />
+		</property>
+		<property name="transactionAttributes">
+			<props>
+				<prop key="insert*">PROPAGATION_REQUIRED</prop>
+				<prop key="update*">PROPAGATION_REQUIRED</prop>
+				<prop key="delete*">PROPAGATION_REQUIRED</prop>		
+				<prop key="create*">PROPAGATION_REQUIRED</prop>	
+				<prop key="*">PROPAGATION_REQUIRED,readOnly</prop>
+			</props>
+		</property>
+	</bean>
+
+	
+	
+  <!-- ########################## 대상자리스트  메뉴 ####################################### -->
+
+		<!-- 대상자리스트 -->
+	<bean id="targetListDAO" class="web.target.targetlist.dao.TargetListDAOImpl">
+		<property name="dataSource">
+			<ref local="dataSource"/>
+		</property>
+	</bean>
+
+	<bean id="targetListServiceTarget" class="web.target.targetlist.service.TargetListServiceImpl" >
+		<property name="targetListDAO">
+			<ref local="targetListDAO" />
+		</property>
+	</bean>
+
+
+	<bean id="targetListService" parent="txProxyTemplate">
+		<property name="target">
+			<ref local="targetListServiceTarget" />
+		</property>
+		<property name="transactionAttributes">
+			<props>
+				<prop key="insert*">PROPAGATION_REQUIRED</prop>
+				<prop key="update*">PROPAGATION_REQUIRED</prop>
+				<prop key="delete*">PROPAGATION_REQUIRED</prop>		
+				<prop key="create*">PROPAGATION_REQUIRED</prop>			
+				<prop key="*">PROPAGATION_REQUIRED,readOnly</prop>
+			</props>
+		</property>
+	</bean>
+
+	<!-- 회원검색UI  -->
+	<bean id="targetUIDAO" class="web.target.targetui.dao.TargetUIDAOImpl">
+		<property name="dataSource">
+			<ref local="dataSource"/>
+		</property>
+	</bean>
+	<bean id="targetUIServiceTarget" class="web.target.targetui.service.TargetUIServiceImpl" >
+		<property name="targetUIDAO">
+			<ref local="targetUIDAO" />
+		</property>
+	</bean>
+
+	<bean id="targetUIService" parent="txProxyTemplate">
+		<property name="target">
+			<ref local="targetUIServiceTarget" />
+		</property>
+		<property name="transactionAttributes">
+			<props>
+				<prop key="insert*">PROPAGATION_REQUIRED</prop>
+				<prop key="update*">PROPAGATION_REQUIRED</prop>
+				<prop key="delete*">PROPAGATION_REQUIRED</prop>			
+				<prop key="*">PROPAGATION_REQUIRED,readOnly</prop>
+			</props>
+		</property>
+	</bean>
+
+  <!-- ########################## 대량메일 작성 메뉴 ####################################### -->
+	<bean id="massMailDAO" class="web.massmail.write.dao.MassMailDAOImpl">
+		<property name="dataSource">
+			<ref local="dataSource"/>
+		</property>
+	</bean>
+
+	<bean id="massMailServiceTarget" class="web.massmail.write.service.MassMailServiceImpl" >
+		<property name="massMailDAO">
+			<ref local="massMailDAO" />
+		</property>
+	</bean>
+
+	<bean id="massMailService" parent="txProxyTemplate">
+		<property name="target">
+			<ref local="massMailServiceTarget" />
+		</property>
+			<property name="transactionAttributes">
+			<props>
+				<prop key="insert*">PROPAGATION_REQUIRED</prop>
+				<prop key="update*">PROPAGATION_REQUIRED</prop>
+				<prop key="delete*">PROPAGATION_REQUIRED</prop>			
+				<prop key="*">PROPAGATION_REQUIRED</prop>
+			</props>
+		</property>
+	</bean>
+
+  <!-- ########################## 대량메일 통계 메뉴 ####################################### -->
+	<bean id="massMailStatDAO" class="web.massmail.statistic.dao.MassMailStatDAOImpl">
+		<property name="dataSource">
+			<ref local="dataSource"/>
+		</property>
+	</bean>
+
+	<bean id="massMailStatServiceTarget" class="web.massmail.statistic.service.MassMailStatServiceImpl" >
+		<property name="massMailStatDAO">
+			<ref local="massMailStatDAO" />
+		</property>
+	</bean>
+
+	<bean id="massMailStatService" parent="txProxyTemplate">
+		<property name="target">
+			<ref local="massMailStatServiceTarget" />
+		</property>
+		<property name="transactionAttributes">
+			<props>
+				<prop key="insert*">PROPAGATION_REQUIRED</prop>
+				<prop key="update*">PROPAGATION_REQUIRED</prop>
+				<prop key="delete*">PROPAGATION_REQUIRED</prop>			
+				<prop key="*">PROPAGATION_REQUIRED</prop>
+			</props>
+		</property>
+	</bean>
+ 
+	<!-- ########################## 대량메일 스케줄 메뉴 ####################################### -->
+	<bean id="scheduleDAO" class="web.massmail.schedule.dao.ScheduleDAOImpl">
+		<property name="dataSource">
+			<ref local="dataSource"/>
+		</property>
+	</bean>
+
+	<bean id="scheduleServiceTarget" class="web.massmail.schedule.service.ScheduleServiceImpl" >
+		<property name="scheduleDAO">
+			<ref local="scheduleDAO" />
+		</property>
+	</bean>
+
+	<bean id="scheduleService" parent="txProxyTemplate">
+		<property name="target">
+			<ref local="scheduleServiceTarget" />
+		</property>
+		<property name="transactionAttributes">
+			<props>
+				<prop key="insert*">PROPAGATION_REQUIRED</prop>
+				<prop key="update*">PROPAGATION_REQUIRED</prop>
+				<prop key="delete*">PROPAGATION_REQUIRED</prop>			
+				<prop key="*">PROPAGATION_REQUIRED,readOnly</prop>
+			</props>
+		</property>
+	</bean>
+
+   <!-- #######################반응정보 수집 ##################### -->
+
+	<bean id="responseDAO" class="web.response.dao.ResponseDAOImpl">
+		<property name="dataSource">
+			<ref local="dataSource"/>
+		</property>
+	</bean>
+
+	<bean id="responseServiceTarget" class="web.response.service.ResponseServiceImpl" >
+		<property name="responseDAO">
+			<ref local="responseDAO" />
+		</property>
+	</bean>
+
+	<bean id="responseService" parent="txProxyTemplate">
+		<property name="target">
+			<ref local="responseServiceTarget" />
+		</property>
+		<property name="transactionAttributes">
+			<props>
+				<prop key="insert*">PROPAGATION_REQUIRED</prop>
+				<prop key="update*">PROPAGATION_REQUIRED</prop>
+				<prop key="delete*">PROPAGATION_REQUIRED</prop>			
+				<prop key="*">PROPAGATION_REQUIRED,readOnly</prop>
+			</props>
+		</property>
+	</bean>
+
+
+
+
+<!-- #######################메일템플릿관리  수집 ##################### -->
+	<bean id="mailTemplateDAO" class="web.content.mailtemplate.dao.MailTemplateDAOImpl">
+		<property name="dataSource">
+			<ref local="dataSource"/>
+		</property>
+	</bean>
+
+	<bean id="mailTemplateServiceTarget" class="web.content.mailtemplate.service.MailTemplateServiceImpl" >
+		<property name="mailTemplateDAO">
+			<ref local="mailTemplateDAO" />
+		</property>
+	</bean>
+
+	<bean id="mailTemplateService" parent="txProxyTemplate">
+		<property name="target">
+			<ref local="mailTemplateServiceTarget" />
+		</property>
+		<property name="transactionAttributes">
+			<props>
+				<prop key="insert*">PROPAGATION_REQUIRED</prop>
+				<prop key="update*">PROPAGATION_REQUIRED</prop>
+				<prop key="delete*">PROPAGATION_REQUIRED</prop>			
+				<prop key="*">PROPAGATION_REQUIRED,readOnly</prop>
+			</props>
+		</property>
+	</bean>
+
+
+<!-- #######################테스터 관리 ##################### -->
+	<bean id="testerDAO" class="web.content.tester.dao.TesterDAOImpl">
+		<property name="dataSource">
+			<ref local="dataSource"/>
+		</property>
+	</bean>
+
+	<bean id="testerServiceTarget" class="web.content.tester.service.TesterServiceImpl" >
+		<property name="testerDAO">
+			<ref local="testerDAO" />
+		</property>
+	</bean>
+
+	<bean id="testerService" parent="txProxyTemplate">
+		<property name="target">
+			<ref local="testerServiceTarget" />
+		</property>
+		<property name="transactionAttributes">
+			<props>
+				<prop key="insert*">PROPAGATION_REQUIRED</prop>
+				<prop key="update*">PROPAGATION_REQUIRED</prop>
+				<prop key="delete*">PROPAGATION_REQUIRED</prop>			
+				<prop key="*">PROPAGATION_REQUIRED,readOnly</prop>
+			</props>
+		</property>
+	</bean>
+
+
+<!-- #######################설문관리 ##################### -->
+	<bean id="pollDAO" class="web.content.poll.dao.PollDAOImpl">
+		<property name="dataSource">
+			<ref local="dataSource"/>
+		</property>
+	</bean>
+
+	<bean id="pollServiceTarget" class="web.content.poll.service.PollServiceImpl" >
+		<property name="pollDAO">
+			<ref local="pollDAO" />
+		</property>
+	</bean>
+
+	<bean id="pollService" parent="txProxyTemplate">
+		<property name="target">
+			<ref local="pollServiceTarget" />
+		</property>
+		<property name="transactionAttributes">
+			<props>
+				<prop key="insert*">PROPAGATION_REQUIRED</prop>
+				<prop key="update*">PROPAGATION_REQUIRED</prop>
+				<prop key="delete*">PROPAGATION_REQUIRED</prop>			
+				<prop key="*">PROPAGATION_REQUIRED,readOnly</prop>
+			</props>
+		</property>
+	</bean>
+
+	  <!-- manager 리스트  설정 -->
+
+	<bean id="managerDAO" class="web.admin.manager.dao.ManagerDAOImpl"> 
+		<property name="dataSource">
+			<ref local="dataSource"/>
+		</property>
+	</bean>
+
+	<bean id="managerServiceTarget" class="web.admin.manager.service.ManagerServiceImpl" >
+		<property name="managerDAO">
+			<ref local="managerDAO" />
+		</property>
+	</bean>
+
+	<bean id="managerService" parent="txProxyTemplate">
+		<property name="target">
+			<ref local="managerServiceTarget" />
+		</property>
+		<property name="transactionAttributes">
+			<props>
+				<prop key="*">PROPAGATION_REQUIRED</prop>
+			</props>
+		</property>
+	</bean>
+
+
+<!-- #######################자동메일 ##################### -->
+	<bean id="autoMailDAO" class="web.automail.dao.AutoMailDAOImpl">
+		<property name="dataSource">
+			<ref local="dataSource"/>
+		</property>
+	</bean>
+
+	<bean id="autoMailServiceTarget" class="web.automail.service.AutoMailServiceImpl" >
+		<property name="autoMailDAO">
+			<ref local="autoMailDAO" />
+		</property>
+	</bean>
+
+	<bean id="autoMailService" parent="txProxyTemplate">
+		<property name="target">
+			<ref local="autoMailServiceTarget" />
+		</property>
+		<property name="transactionAttributes">
+			<props>
+				<prop key="insert*">PROPAGATION_REQUIRED</prop>
+				<prop key="update*">PROPAGATION_REQUIRED</prop>
+				<prop key="delete*">PROPAGATION_REQUIRED</prop>			
+				<prop key="*">PROPAGATION_REQUIRED,readOnly</prop>
+			</props>
+		</property>
+	</bean>
+
+<!-- #######################기존발송자관리 ##################### -->
+	<bean id="sendHistoryDAO" class="web.target.sendhistory.dao.SendHistoryDAOImpl">
+		<property name="dataSource">
+			<ref local="dataSource"/>
+		</property>
+	</bean>
+
+	<bean id="sendHistoryServiceTarget" class="web.target.sendhistory.service.SendHistoryServiceImpl" >
+		<property name="sendHistoryDAO">
+			<ref local="sendHistoryDAO" />
+		</property>
+	</bean>
+
+	<bean id="sendHistoryService" parent="txProxyTemplate">
+		<property name="target">
+			<ref local="sendHistoryServiceTarget" />
+		</property>
+		<property name="transactionAttributes">
+			<props>
+				<prop key="insert*">PROPAGATION_REQUIRED</prop>
+				<prop key="update*">PROPAGATION_REQUIRED</prop>
+				<prop key="delete*">PROPAGATION_REQUIRED</prop>			
+				<prop key="*">PROPAGATION_REQUIRED,readOnly</prop>
+			</props>
+		</property>
+	</bean>
+
+
+
+	<!-- ####################### 유틸 DB Access ##################### -->
+	<bean id="commonAccessDAO" class="web.common.dao.CommonAccessDAOImpl">
+		<property name="dataSource">
+			<ref local="dataSource"/>
+		</property>
+	</bean>
+
+	<bean id="commonAccessServiceTarget" class="web.common.service.CommonAccessServiceImpl" >
+		<property name="commonAccessDAO">
+			<ref local="commonAccessDAO" />
+		</property>
+	</bean>
+
+	<bean id="commonAccessService" parent="txProxyTemplate">
+		<property name="target">
+			<ref local="commonAccessServiceTarget" />
+		</property>
+		<property name="transactionAttributes">
+			<props>
+				<prop key="insert*">PROPAGATION_REQUIRED</prop>
+				<prop key="update*">PROPAGATION_REQUIRED</prop>
+				<prop key="delete*">PROPAGATION_REQUIRED</prop>			
+				<prop key="*">PROPAGATION_REQUIRED,readOnly</prop>
+			</props>
+		</property>
+	</bean>
+
+
+	<!-- #######################자동메일 API ##################### -->
+	<bean id="autoMailAPIDAO" class="web.api.automail.dao.AutoMailAPIDAOImpl">
+		<property name="dataSource">
+			<ref local="dataSource"/>
+		</property>
+	</bean>
+
+	<bean id="autoMailAPIServiceTarget" class="web.api.automail.service.AutoMailAPIServiceImpl" >
+		<property name="autoMailAPIDAO">
+			<ref local="autoMailAPIDAO" />
+		</property>
+	</bean>
+
+	<bean id="autoMailAPIService" parent="txProxyTemplate">
+		<property name="target">
+			<ref local="autoMailAPIServiceTarget" />
+		</property>
+		<property name="transactionAttributes">
+			<props>
+				<prop key="insert*">PROPAGATION_REQUIRED</prop>
+				<prop key="update*">PROPAGATION_REQUIRED</prop>
+				<prop key="delete*">PROPAGATION_REQUIRED</prop>			
+				<prop key="*">PROPAGATION_REQUIRED,readOnly</prop>
+			</props>
+		</property>
+	</bean>
+
+	<!-- #######################대량메일 API ##################### -->
+	<bean id="massMailAPIDAO" class="web.api.massmail.dao.MassMailAPIDAOImpl">
+		<property name="dataSource">
+			<ref local="dataSource"/>
+		</property>
+	</bean>
+
+	<bean id="massMailAPIServiceTarget" class="web.api.massmail.service.MassMailAPIServiceImpl" >
+		<property name="massMailAPIDAO">
+			<ref local="massMailAPIDAO" />
+		</property>
+	</bean>
+
+	<bean id="massMailAPIService" parent="txProxyTemplate">
+		<property name="target">
+			<ref local="massMailAPIServiceTarget" />
+		</property>
+		<property name="transactionAttributes">
+			<props>
+				<prop key="insert*">PROPAGATION_REQUIRED</prop>
+				<prop key="update*">PROPAGATION_REQUIRED</prop>
+				<prop key="delete*">PROPAGATION_REQUIRED</prop>			
+				<prop key="*">PROPAGATION_REQUIRED,readOnly</prop>
+			</props>
+		</property>
+	</bean>
+
+
+
+<!-- #######################자동SMS ##################### -->
+	<bean id="autoSMSDAO" class="web.autosms.dao.AutoSMSDAOImpl">
+		<property name="dataSource">
+			<ref local="dataSource"/>
+		</property>
+	</bean>
+
+	<bean id="autoSMSServiceTarget" class="web.autosms.service.AutoSMSServiceImpl" >
+		<property name="autoSMSDAO">
+			<ref local="autoSMSDAO" />
+		</property>
+	</bean>
+
+	<bean id="autoSMSService" parent="txProxyTemplate">
+		<property name="target">
+			<ref local="autoSMSServiceTarget" />
+		</property>
+		<property name="transactionAttributes">
+			<props>
+				<prop key="insert*">PROPAGATION_REQUIRED</prop>
+				<prop key="update*">PROPAGATION_REQUIRED</prop>
+				<prop key="delete*">PROPAGATION_REQUIRED</prop>			
+				<prop key="*">PROPAGATION_REQUIRED,readOnly</prop>
+			</props>
+		</property>
+	</bean>
+
+	<!-- #######################자동메일 API ##################### -->
+	<bean id="autosmsAPIDAO" class="web.api.autosms.dao.AutosmsAPIDAOImpl">
+		<property name="dataSource">
+			<ref local="dataSource"/>
+		</property>
+	</bean>
+
+	<bean id="autosmsAPIServiceTarget" class="web.api.autosms.service.AutosmsAPIServiceImpl" >
+		<property name="autosmsAPIDAO">
+			<ref local="autosmsAPIDAO" />
+		</property>
+	</bean>
+
+	<bean id="autosmsAPIService" parent="txProxyTemplate">
+		<property name="target">
+			<ref local="autosmsAPIServiceTarget" />
+		</property>
+		<property name="transactionAttributes">
+			<props>
+				<prop key="insert*">PROPAGATION_REQUIRED</prop>
+				<prop key="update*">PROPAGATION_REQUIRED</prop>
+				<prop key="delete*">PROPAGATION_REQUIRED</prop>			
+				<prop key="*">PROPAGATION_REQUIRED,readOnly</prop>
+			</props>
+		</property>
+	</bean>
+
+
+	  <!-- ########################## 대량SMS 작성 메뉴 ####################################### -->
+	<bean id="massSMSDAO" class="web.masssms.write.dao.MassSMSDAOImpl">
+		<property name="dataSource">
+			<ref local="dataSource"/>
+		</property>
+	</bean>
+
+	<bean id="massSMSServiceTarget" class="web.masssms.write.service.MassSMSServiceImpl" >
+		<property name="massSMSDAO">
+			<ref local="massSMSDAO" />
+		</property>
+	</bean>
+
+	<bean id="massSMSService" parent="txProxyTemplate">
+		<property name="target">
+			<ref local="massSMSServiceTarget" />
+		</property>
+	</bean>
+
+  <!-- ########################## 대량SMS 통계 메뉴 ####################################### -->
+	<bean id="massSMSStatDAO" class="web.masssms.statistic.dao.MassSMSStatDAOImpl">
+		<property name="dataSource">
+			<ref local="dataSource"/>
+		</property>
+	</bean>
+
+	<bean id="massSMSStatServiceTarget" class="web.masssms.statistic.service.MassSMSStatServiceImpl" >
+		<property name="massSMSStatDAO">
+			<ref local="massSMSStatDAO" />
+		</property>
+	</bean>
+
+	<bean id="massSMSStatService" parent="txProxyTemplate">
+		<property name="target">
+			<ref local="massSMSStatServiceTarget" />
+		</property>
+		<property name="transactionAttributes">
+			<props>
+				<prop key="insert*">PROPAGATION_REQUIRED</prop>
+				<prop key="update*">PROPAGATION_REQUIRED</prop>
+				<prop key="delete*">PROPAGATION_REQUIRED</prop>			
+				<prop key="*">PROPAGATION_REQUIRED</prop>
+			</props>
+		</property>
+	</bean>
+
+
+	<!-- 수신거부자SMS-->
+
+	<bean id="rejectSMSDAO" class="web.admin.rejectsms.dao.RejectSMSDAOImpl">
+		<property name="dataSource">
+			<ref local="dataSource"/>
+		</property>
+	</bean>
+
+	<bean id="rejectSMSServiceTarget" class="web.admin.rejectsms.service.RejectSMSServiceImpl" >
+		<property name="rejectSMSDAO">
+			<ref local="rejectSMSDAO" />
+		</property>
+	</bean>
+
+	<bean id="rejectSMSService" parent="txProxyTemplate">
+		<property name="target">
+			<ref local="rejectSMSServiceTarget" />
+		</property>
+		<property name="transactionAttributes">
+			<props>
+				<prop key="insert*">PROPAGATION_REQUIRED</prop>
+				<prop key="update*">PROPAGATION_REQUIRED</prop>
+				<prop key="delete*">PROPAGATION_REQUIRED</prop>			
+				<prop key="*">PROPAGATION_REQUIRED,readOnly</prop>
+			</props>
+		</property>
+	</bean>
+
+
+	<!-- ########################## 대량SMS 스케줄 메뉴 ####################################### -->
+	<bean id="smsScheduleDAO" class="web.masssms.schedule.dao.ScheduleDAOImpl">
+		<property name="dataSource">
+			<ref local="dataSource"/>
+		</property>
+	</bean>
+
+	<bean id="smsScheduleServiceTarget" class="web.masssms.schedule.service.ScheduleServiceImpl" >
+		<property name="smsScheduleDAO">
+			<ref local="smsScheduleDAO" />
+		</property>
+	</bean>
+
+	<bean id="smsScheduleService" parent="txProxyTemplate">
+		<property name="target">
+			<ref local="smsScheduleServiceTarget" />
+		</property>
+		<property name="transactionAttributes">
+			<props>
+				<prop key="insert*">PROPAGATION_REQUIRED</prop>
+				<prop key="update*">PROPAGATION_REQUIRED</prop>
+				<prop key="delete*">PROPAGATION_REQUIRED</prop>			
+				<prop key="*">PROPAGATION_REQUIRED,readOnly</prop>
+			</props>
+		</property>
+	</bean>
+
+
+
+	<!-- #######################연동메일 ##################### -->
+	<bean id="interMailDAO" class="web.intermail.dao.InterMailDAOImpl">
+		<property name="dataSource">
+			<ref local="dataSource"/>
+		</property>
+	</bean>
+
+	<bean id="interMailServiceTarget" class="web.intermail.service.InterMailServiceImpl" >
+		<property name="interMailDAO">
+			<ref local="interMailDAO" />
+		</property>
+	</bean>
+
+	<bean id="interMailService" parent="txProxyTemplate">
+		<property name="target">
+			<ref local="interMailServiceTarget" />
+		</property>
+		<property name="transactionAttributes">
+			<props>
+				<prop key="insert*">PROPAGATION_REQUIRED</prop>
+				<prop key="update*">PROPAGATION_REQUIRED</prop>
+				<prop key="delete*">PROPAGATION_REQUIRED</prop>			
+				<prop key="create*">PROPAGATION_REQUIRED</prop>			
+				<prop key="*">PROPAGATION_REQUIRED,readOnly</prop>
+			</props>
+		</property>
+	</bean>
+
+	<!-- #######################타겟이관 ##################### -->
+	<bean id="transferTargetDAO" class="web.common.dao.TransferTargetDAOImpl">
+		<property name="dataSource">
+			<ref local="dataSource"/>
+		</property>
+	</bean>
+
+	<bean id="transferTargetServiceTarget" class="web.common.service.TransferTargetServiceImpl" >
+		<property name="transferTargetDAO">
+			<ref local="transferTargetDAO" />
+		</property>
+	</bean>
+
+	<bean id="transferTargetService" parent="txProxyTemplate">
+		<property name="target">
+			<ref local="transferTargetServiceTarget" />
+		</property>
+		<property name="transactionAttributes">
+			<props>
+				<prop key="insert*">PROPAGATION_REQUIRED</prop>
+				<prop key="update*">PROPAGATION_REQUIRED</prop>
+				<prop key="delete*">PROPAGATION_REQUIRED</prop>			
+				<prop key="*">PROPAGATION_REQUIRED,readOnly</prop>
+			</props>
+		</property>
+	</bean>
+
+</beans>
